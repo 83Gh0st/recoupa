@@ -165,7 +165,7 @@ export default async function DebtorsPage({
               </div>
               <div className="md:col-span-2 text-xs text-slate-400">
                 This creates a lead only. Add invoices on the debtor&apos;s page (or use Master Load) before
-                recording payments — payments always apply against a real invoice.
+                recording payments - payments always apply against a real invoice.
               </div>
               <div className="md:col-span-2">
                 <button type="submit" className={btnPrimary}>Create lead</button>
@@ -204,7 +204,7 @@ export default async function DebtorsPage({
                   <td className={tdClass}>{formatDate(r.nextFollowUpAt)}</td>
                   <td className={tdClass}>
                     {isCollector ? (
-                      r.assignedUserName || "—"
+                      r.assignedUserName || "-"
                     ) : (
                       <AssignSelect debtorId={r.id} collectors={collectors} assignedUserId={r.assignedUserId} />
                     )}

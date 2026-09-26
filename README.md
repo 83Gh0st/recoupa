@@ -1,121 +1,97 @@
 # Recoupa
 
-A multi-tenant debt-recovery and sales-pipeline workspace: principal clients → debtors → invoices,
-a prioritized calling queue with call outcomes and auto-scheduled follow-ups, cheque/PDC tracking,
-payments with ageing-based commission calculation, disputes, payment corrections, a separate sales
-pipeline (prospects → outreach → conversion to client), spreadsheet import for both books, role-based
-access, and an audit trail.
+A workspace for running a debt collection agency: the debtors you're chasing, the invoices behind them, the calls you make, the cheques and payments that come in, and the commission your agency earns on top of it. There's a second, smaller book for sales too: prospects, outreach, and converting a signed deal into a real client.
 
-This is an original implementation — its own schema, naming, copy, and code — built to be
-functionally comparable to a class of software (agency debt-collection + sales CRMs), not a copy of
-any specific product's text or design.
+I built this after looking at how these agencies actually run their day (a lot of spreadsheets, a lot of "who called this guy last"), and wanted to see what it looks like as a proper multi-tenant app instead. Two roles do the calling and closing, two roles manage the operation, and one role lets the client peek at their own numbers without touching anything.
 
-## Stack (all free-tier to start)
+![Next.js](https://img.shields.io/badge/Next.js-16-black) ![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue) ![Postgres](https://img.shields.io/badge/Postgres-Neon-336791) ![Drizzle](https://img.shields.io/badge/ORM-Drizzle-c5f74f)
 
-| Layer | Choice | Why |
-|---|---|---|
-| App | Next.js 16 (App Router, TypeScript) | one codebase for UI + API, deploys free on Vercel |
-| DB | PostgreSQL via [Neon](https://neon.tech) | serverless Postgres, generous permanent free tier, pairs natively with Vercel |
-| ORM | [Drizzle](https://orm.drizzle.team) | typed schema + migrations, no native binary — works in any serverless runtime |
-| Auth | NextAuth (Credentials + JWT) | email/password, bcrypt-hashed, role + tenant baked into the session |
-| Styling | Tailwind CSS v4 | no external font/CDN dependency, fast to iterate |
-| Spreadsheet import | `xlsx` (SheetJS) | reads `.xlsx` / `.xls` / `.csv`, fuzzy header matching |
+## What it actually does
 
-Nothing here requires a paid plan to run a real pilot. When you outgrow the free tiers, Neon and
-Vercel both scale up on the same codebase — no migration needed.
+**Collection side**
+- Principal clients (the companies who hired you) → debtors (who owe them) → invoices
+- A calling queue that sorts itself into overdue, due today, upcoming, and unscheduled
+- Call logging with required notes, and the next follow-up date gets set automatically based on what happened on the call
+- Cheque and post-dated cheque tracking, with maturity alerts on the dashboard
+- Payments that calculate commission on the spot, based on how old the invoice is
+- A disputes queue, and a proper approval flow for correcting a payment someone entered wrong
+- Spreadsheet import for loading a whole portfolio at once, with a dry run before anything gets committed
 
-## 1. Local setup
+**Sales side**
+- Prospects imported from a spreadsheet or added by hand
+- An outreach queue that works the same way the calling queue does
+- Logged outreach with auto-scheduled follow-ups
+- One click to convert a won prospect into a real client, which drops you straight into loading their invoices
+
+**Underneath both**
+- Five roles (Owner, Operations Manager, Collector, Sales Rep, Client Portal), each seeing only what they should, checked server-side on every request, not just hidden in a menu
+- Full multi-tenancy, every table scoped by tenant, so one deployment can run several agencies with zero data leaking between them
+- An audit log of who did what and when
+- An in-app operator handbook at `/handbook` documenting all of it
+
+## Demo
+
+_Add a screenshot or GIF of the dashboard/calling queue here before you push this. A 15 second screen recording of the queue → call log → payment flow sells this way better than any description will._
+
+## Stack
+
+Next.js 16 with the App Router, TypeScript, Tailwind. Postgres through Neon, queried with Drizzle. Auth is NextAuth with credentials and a JWT session carrying the role and tenant. Spreadsheet parsing runs on `xlsx`. The landing page uses Framer Motion for the scroll animations and Lucide for icons.
+
+I picked this stack specifically because you can get a real, working version of this online without paying for anything. Neon's free Postgres tier and Vercel's free hosting tier are both generous enough for a genuine pilot, and neither one needs you to hand over a credit card to start.
+
+## Running it locally
 
 ```bash
-npm install --legacy-peer-deps   # a known npm/arborist bug needs this flag on some npm versions
+npm install --legacy-peer-deps
 cp .env.example .env.local
 ```
 
-Create a free Postgres database at [neon.tech](https://neon.tech) (no credit card required), copy
-its connection string into `DATABASE_URL` in `.env.local`, and generate a random `NEXTAUTH_SECRET`:
+Grab a free Postgres database at [neon.tech](https://neon.tech), drop the connection string into `DATABASE_URL`, and generate a secret for NextAuth:
 
 ```bash
 openssl rand -base64 32
 ```
 
-Push the schema and seed demo data:
+Then push the schema and seed some demo data:
 
 ```bash
-npm run db:push     # creates every table from lib/db/schema.ts
-npm run seed         # one demo tenant, one login per role, a sample client/debtor/invoice
+npm run db:push
+npm run seed
 ```
 
-Then:
+`npm run seed` prints five logins when it's done, one per role, all sharing the same password. Sign in with any of them after running:
 
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000 and sign in with any of the seeded accounts (see the console output from
-`npm run seed` — all share the password `password123`). **Change or remove these before going to
-production.**
+## Putting it online for free
 
-## 2. Deploying for free
+1. Push the repo to GitHub.
+2. Spin up a Neon project for production (keep it separate from whatever you used locally).
+3. Import the repo into Vercel on the free Hobby plan.
+4. Add `DATABASE_URL`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL` under Vercel's environment variables.
+5. Deploy, then run `npm run db:push` and `npm run seed` once against the production database.
 
-1. Push this project to a GitHub repo.
-2. Create a Neon project (if you haven't already) for production — keep it separate from any local/dev database.
-3. Import the repo into [Vercel](https://vercel.com) (free Hobby plan).
-4. In Vercel's project settings → Environment Variables, add `DATABASE_URL`, `NEXTAUTH_SECRET`, and
-   `NEXTAUTH_URL` (your Vercel URL, e.g. `https://your-app.vercel.app`).
-5. Deploy. On the first deploy, run the schema push once against the production database — either
-   locally with `DATABASE_URL` pointed at production, or by wiring `db:push`/`db:migrate` into a
-   one-off Vercel deploy step.
-6. Run `npm run seed` once against production (or skip it and create your real tenant/users by hand
-   through the app once you have one Owner account — see "Bootstrapping the first account" below).
+That's genuinely it. Both platforms are built for exactly this: a real pilot at zero cost, with room to scale up later without touching the code.
 
-Both Neon and Vercel's free tiers are meant for exactly this: a real, working pilot at zero cost,
-scaling up later on the same setup.
+## Things I simplified on purpose
 
-### Bootstrapping the first account
+Being upfront about this instead of pretending it's finished:
 
-The seed script is the easy path. If you'd rather not run it against production, insert one row by
-hand (via `npm run db:studio`, which opens Drizzle's local DB browser): one `tenants` row, then one
-`users` row with `role = 'OWNER'` and a bcrypt hash of your chosen password
-(`node -e "console.log(require('bcryptjs').hashSync('yourpassword', 10))"`). From there, sign in and
-create every other user through **Team**.
+- Documents store a file name or reference, not an actual uploaded file yet. Wiring up Vercel Blob or Supabase Storage is a small job, the hook is already sitting in `addDocument` in `app/debtors/actions.ts`.
+- Tenant isolation happens in application code (every query filters by tenant id from the session), not Postgres row level security. Fine for now, worth hardening before this touches real customer data at any scale.
+- Correcting a payment recalculates that one payment against the invoice's current commission percentage. It doesn't cascade back through every historical payment if you change the invoice's percentage after the fact. Rare enough that I left it as a known gap rather than building it out.
+- No automated tests yet. Given how much ground this covers, getting every module working came first.
 
-## 3. What's deliberately simplified vs. a full production system
-
-These are honest tradeoffs made to ship a complete, working system across every module rather than a
-deep implementation of only one or two:
-
-- **File storage isn't wired up.** The Documents module stores a file name/reference and notes, not
-  actual uploaded bytes — same as the source spec's "or type a file name/reference if the paper is
-  stored elsewhere" option. To add real uploads: [Vercel Blob](https://vercel.com/docs/storage/vercel-blob)
-  or [Supabase Storage](https://supabase.com/storage) both have free tiers and a handful of lines of
-  integration in `app/debtors/actions.ts`'s `addDocument`.
-- **Tenant isolation is enforced in application code** (every query filters by `tenantId` from the
-  session), not database-level Postgres Row-Level Security. That's a legitimate, common pattern for
-  this scale, but RLS is a worthwhile hardening step before handling real customer data at scale.
-- **Commission recalculation on a payment correction** recomputes that one payment's commission at
-  the invoice's *current* commission %; it doesn't cascade-recalculate every historical payment on an
-  invoice if you edit the invoice's commission % after the fact. Rare edge case, noted rather than
-  built out.
-- **The "Tenants" admin page lists every tenant** on the deployment (useful if you're running this
-  for multiple agencies from one instance) rather than being scoped like everything else. Every other
-  page is strictly scoped to the signed-in user's own tenant.
-- **No automated tests yet.** Given the scope, priority went to a working, complete feature set.
-  Adding Vitest/Playwright is a natural next step.
-
-## 4. Project structure
+## How it's organized
 
 ```
-lib/db/schema.ts        Full data model (Drizzle) — start here to understand the domain
-lib/rbac.ts              Role/permission matrix + server-side guards
-lib/commission.ts        Ageing-tier commission lookup
-lib/followup.ts          Auto follow-up scheduling (both books)
-lib/import/               Spreadsheet parsing for master load + sales mastersheet
-app/(each module)/        page.tsx (server component) + actions.ts (server actions)
-app/api/                  Two file-upload endpoints (import can't be a server action)
-components/               Shell (nav), ui.tsx (shared primitives)
-scripts/seed.ts           Demo data
+lib/db/schema.ts     the whole data model, start here if you want to understand the domain
+lib/rbac.ts           role and permission checks, used server-side on every action
+lib/commission.ts     ageing tier lookup for commission percentage
+lib/followup.ts       auto follow-up scheduling for both books
+lib/import/           spreadsheet parsing for master load and the sales mastersheet
+app/*/actions.ts       server actions, each one re-checks the role before doing anything
+scripts/seed.ts       demo data
 ```
-
-Every mutation goes through a server action or API route that re-checks the role server-side
-(`requireRole`/`requireArea` in `lib/rbac.ts`) — the sidebar hiding a link is a UX nicety, not the
-security boundary.

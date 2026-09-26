@@ -85,7 +85,7 @@ export default async function CorrectionsPage({
                   </td>
                   <td className={tdClass}>{money(r.originalAmount, currency)} → {money(r.proposedAmount, currency)}</td>
                   <td className={tdClass}>{r.reason}{r.reviewNotes && <div className="text-xs text-slate-400 mt-0.5">Review note: {r.reviewNotes}</div>}</td>
-                  <td className={tdClass}>{r.requestedByName ?? "—"}</td>
+                  <td className={tdClass}>{r.requestedByName ?? "-"}</td>
                   <td className={tdClass}><Badge value={r.status} /></td>
                   {isManager && (
                     <td className={tdClass}>

@@ -33,7 +33,7 @@ const HEADER_MAP: Record<string, keyof SalesRow> = {
   notes: "notes",
 };
 
-const BLANK_TOKENS = new Set(["", "n a", "n/a", "na", "nil", "-", "—"]);
+const BLANK_TOKENS = new Set(["", "n a", "n/a", "na", "nil", "-"]);
 
 function normalizeHeader(h: string) {
   return h.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();

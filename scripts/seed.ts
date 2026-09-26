@@ -26,7 +26,7 @@ async function main() {
     .where(eq(schema.tenants.name, "Demo Recovery Agency"))
     .limit(1);
   if (existing) {
-    console.log("Found a previous demo tenant — clearing it out first…");
+    console.log("Found a previous demo tenant - clearing it out first…");
     await db.delete(schema.tenants).where(eq(schema.tenants.id, existing.id));
   }
 

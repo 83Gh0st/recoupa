@@ -8,9 +8,9 @@ export function money(amount: number | string | null | undefined, currency = "US
 }
 
 export function formatDate(d: Date | string | null | undefined) {
-  if (!d) return "—";
+  if (!d) return "-";
   const date = typeof d === "string" ? new Date(d) : d;
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "-";
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",

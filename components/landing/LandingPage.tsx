@@ -22,7 +22,7 @@ const FEATURES = [
   {
     icon: PhoneCall,
     title: "Calling queue that prioritizes itself",
-    body: "Every assigned debtor sorted into Overdue, Due today, and Upcoming — automatically rescheduled the moment you log an outcome.",
+    body: "Every assigned debtor sorted into Overdue, Due today, and Upcoming - automatically rescheduled the moment you log an outcome.",
   },
   {
     icon: Percent,
@@ -32,22 +32,22 @@ const FEATURES = [
   {
     icon: Landmark,
     title: "Cheque & PDC tracking",
-    body: "Post-dated cheques surface on the dashboard seven days before they mature — nothing slips through.",
+    body: "Post-dated cheques surface on the dashboard seven days before they mature - nothing slips through.",
   },
   {
     icon: FileSpreadsheet,
     title: "Spreadsheet import, validated first",
-    body: "Load a debtor portfolio or a prospect list in two clicks — dry-run validation catches errors before anything is committed.",
+    body: "Load a debtor portfolio or a prospect list in two clicks - dry-run validation catches errors before anything is committed.",
   },
   {
     icon: ShieldCheck,
     title: "Real role-based access",
-    body: "Five roles, one permission model — enforced on every request server-side, not just hidden in the sidebar.",
+    body: "Five roles, one permission model - enforced on every request server-side, not just hidden in the sidebar.",
   },
   {
     icon: History,
     title: "A full audit trail",
-    body: "Every payment, correction, and status change is recorded: who, what, and when — the source of truth when it matters.",
+    body: "Every payment, correction, and status change is recorded: who, what, and when - the source of truth when it matters.",
   },
 ];
 
@@ -287,7 +287,7 @@ export default function LandingPage() {
 
       <footer className="border-t border-slate-200">
         <div className="mx-auto max-w-6xl px-4 md:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-          <span>Recoupa — Collection &amp; Sales Operations</span>
+          <span>Recoupa - Collection &amp; Sales Operations</span>
           <Link href="/handbook" className="hover:text-slate-600">Operator Handbook</Link>
         </div>
       </footer>

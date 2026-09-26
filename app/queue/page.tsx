@@ -46,7 +46,7 @@ export default async function QueuePage() {
   const unscheduled = scoped.filter((d) => !d.nextFollowUpAt);
 
   const groups = [
-    { title: "Overdue — call now", color: "border-rose-300", dot: "bg-rose-500", items: overdue },
+    { title: "Overdue - call now", color: "border-rose-300", dot: "bg-rose-500", items: overdue },
     { title: "Due today", color: "border-amber-300", dot: "bg-amber-500", items: dueToday },
     { title: "Upcoming", color: "border-sky-300", dot: "bg-sky-500", items: upcoming },
     { title: "No follow-up scheduled", color: "border-slate-300", dot: "bg-slate-400", items: unscheduled },

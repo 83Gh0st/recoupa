@@ -18,7 +18,7 @@ export default async function ClientsPage({
 
   const isClientPortal = role === "CLIENT";
 
-  // Per-client rollups via small follow-up queries — simple and reliable across PG versions.
+  // Per-client rollups via small follow-up queries - simple and reliable across PG versions.
   const clients = await db
     .select()
     .from(schema.principalClients)

@@ -51,7 +51,7 @@ export default async function TenantsPage({
               <input name="companyPhone" className={inputClass} />
             </div>
             <div className="md:col-span-2 text-xs text-slate-400">
-              Starts empty with default commission tiers — create its users under Team afterward.
+              Starts empty with default commission tiers - create its users under Team afterward.
             </div>
             <div className="md:col-span-2">
               <button type="submit" className={btnPrimary}>Create tenant</button>

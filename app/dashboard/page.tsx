@@ -130,7 +130,7 @@ export default async function DashboardPage() {
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <Card className="p-4">
               <div className="font-medium text-sm text-slate-800 mb-3">
-                PDC maturity — next 7 days
+                PDC maturity - next 7 days
               </div>
               {pdcAlerts.length === 0 ? (
                 <p className="text-sm text-slate-400">No post-dated cheques maturing soon.</p>
@@ -139,7 +139,7 @@ export default async function DashboardPage() {
                   {pdcAlerts.map((c) => (
                     <li key={c.id} className="flex items-center justify-between text-sm">
                       <Link href={`/debtors/${c.debtorId}`} className="text-brand hover:underline">
-                        {c.debtorName} — #{c.chequeNumber}
+                        {c.debtorName} - #{c.chequeNumber}
                       </Link>
                       <span className="text-slate-500">
                         {money(c.amount, currency)} · {formatDate(c.maturityDate)}

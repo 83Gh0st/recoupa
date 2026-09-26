@@ -151,7 +151,7 @@ export default async function ProspectsPage({
                   <td className={tdClass}>{r.contactPerson}<div className="text-xs text-slate-400">{r.phone}</div></td>
                   <td className={tdClass}><Badge value={r.status} /></td>
                   <td className={tdClass}>{r.sourceSheet}</td>
-                  <td className={tdClass}>{r.assignedName ?? "—"}</td>
+                  <td className={tdClass}>{r.assignedName ?? "-"}</td>
                   <td className={tdClass}><Link href={`/sales/prospects/${r.id}`} className="text-brand hover:underline text-xs">Open →</Link></td>
                 </tr>
               ))}

@@ -109,7 +109,7 @@ export default function SalesImportClient({ reps }: { reps: { id: string; name: 
       {imported && (
         <Card className="p-4 bg-emerald-50 border-emerald-200">
           <p className="text-sm text-emerald-800">
-            Imported — {imported.created} new prospect(s) created, {imported.skipped} skipped as existing.
+            Imported - {imported.created} new prospect(s) created, {imported.skipped} skipped as existing.
           </p>
         </Card>
       )}

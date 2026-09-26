@@ -142,7 +142,7 @@ export default async function ProspectDetailPage({
               <li key={l.id} className="border-l-2 border-slate-200 pl-3 text-sm">
                 <div className="flex items-center gap-2">
                   <Badge value={l.disposition} />
-                  <span className="text-xs text-slate-400">{l.channel} · {formatDate(l.createdAt)} · {l.userName ?? "—"}</span>
+                  <span className="text-xs text-slate-400">{l.channel} · {formatDate(l.createdAt)} · {l.userName ?? "-"}</span>
                 </div>
                 <p className="mt-1 text-slate-700">{l.notes}</p>
               </li>

@@ -17,7 +17,7 @@ export default async function DisputesPage() {
   const { tenantId, role } = session.user;
 
   // A CLIENT-role account with no principal client linked (a setup mistake,
-  // not a crash) — show a clear message instead of querying with a bad id.
+  // not a crash) - show a clear message instead of querying with a bad id.
   if (role === "CLIENT" && !session.user.principalClientId) {
     return (
       <Shell session={session}>
@@ -55,7 +55,7 @@ export default async function DisputesPage() {
     <Shell session={session}>
       <PageHeader title="Disputes" subtitle="Debtors currently flagged as disputed." />
       {rows.length === 0 ? (
-        <EmptyState>No open disputes — great news!</EmptyState>
+        <EmptyState>No open disputes - great news!</EmptyState>
       ) : (
         <Card className="overflow-x-auto">
           <table className={tableClass}>
@@ -74,9 +74,9 @@ export default async function DisputesPage() {
                 <tr key={r.id}>
                   <td className={tdClass}><span className="font-medium">{r.name}</span></td>
                   <td className={tdClass}>{r.clientName}</td>
-                  <td className={tdClass}>{r.disputeReason ? REASON_LABEL[r.disputeReason] : "—"}</td>
+                  <td className={tdClass}>{r.disputeReason ? REASON_LABEL[r.disputeReason] : "-"}</td>
                   <td className={tdClass}>{formatDate(r.nextFollowUpAt)}</td>
-                  <td className={tdClass}>{r.assignedName ?? "—"}</td>
+                  <td className={tdClass}>{r.assignedName ?? "-"}</td>
                   <td className={tdClass}>
                     {canOpen && <Link href={`/debtors/${r.id}`} className="text-brand hover:underline text-xs">Review →</Link>}
                   </td>

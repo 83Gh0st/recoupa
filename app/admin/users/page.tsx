@@ -19,7 +19,7 @@ export default async function UsersPage({
 
   const users = await db.select().from(schema.users).where(eq(schema.users.tenantId, tenantId));
   const clients = await db.select().from(schema.principalClients).where(eq(schema.principalClients.tenantId, tenantId));
-  const clientName = (id: string | null) => clients.find((c) => c.id === id)?.name ?? "—";
+  const clientName = (id: string | null) => clients.find((c) => c.id === id)?.name ?? "-";
 
   return (
     <Shell session={session}>
@@ -64,7 +64,7 @@ export default async function UsersPage({
                     <Badge value={u.role} />
                   )}
                 </td>
-                <td className={tdClass}>{u.role === "CLIENT" ? clientName(u.principalClientId) : "—"}</td>
+                <td className={tdClass}>{u.role === "CLIENT" ? clientName(u.principalClientId) : "-"}</td>
                 <td className={tdClass}>{u.isActive ? <Badge value="RESOLVED" /> : <Badge value="DECLINED" />}</td>
                 <td className={tdClass}>
                   {u.id !== myId && (
@@ -109,7 +109,7 @@ function NewUserForm({ isOwner, clients }: { isOwner: boolean; clients: { id: st
       <div className="md:col-span-2">
         <label className={labelClass}>Client scope <span className="text-slate-400">(only used for Client Portal role)</span></label>
         <select name="principalClientId" className={inputClass}>
-          <option value="">—</option>
+          <option value="">-</option>
           {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </div>

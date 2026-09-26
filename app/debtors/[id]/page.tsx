@@ -144,7 +144,7 @@ export default async function DebtorDetailPage({
       </div>
       <PageHeader
         title={debtor.name}
-        subtitle={`${client?.name ?? "—"} · ${debtor.phone}`}
+        subtitle={`${client?.name ?? "-"} · ${debtor.phone}`}
         action={<Badge value={debtor.status} />}
       />
 
@@ -208,7 +208,7 @@ export default async function DebtorDetailPage({
                 type="submit"
                 className="text-xs text-rose-600 hover:underline"
               >
-                Delete lead (irreversible — also deletes call logs)
+                Delete lead (irreversible - also deletes call logs)
               </button>
             </form>
           )}
@@ -221,7 +221,7 @@ export default async function DebtorDetailPage({
           <div className="text-sm font-medium text-slate-800">Statement of account</div>
         </div>
         {invoices.length === 0 ? (
-          <EmptyState>No invoices yet — use Master Load or add an invoice below.</EmptyState>
+          <EmptyState>No invoices yet - use Master Load or add an invoice below.</EmptyState>
         ) : (
           <div className="overflow-x-auto">
             <table className={tableClass}>
@@ -373,7 +373,7 @@ export default async function DebtorDetailPage({
                 return (
                   <li key={p.id} className="text-sm border border-slate-100 rounded-md p-2">
                     <div className="flex justify-between">
-                      <span className="font-medium">{money(p.amount, currency)} — {inv?.invoiceNumber}</span>
+                      <span className="font-medium">{money(p.amount, currency)} - {inv?.invoiceNumber}</span>
                       <span className="text-xs text-slate-400">{formatDate(p.createdAt)}</span>
                     </div>
                     <div className="text-xs text-slate-500">
@@ -417,7 +417,7 @@ export default async function DebtorDetailPage({
                   <option value="">Select invoice…</option>
                   {openInvoices.map((i) => (
                     <option key={i.id} value={i.id}>
-                      {i.invoiceNumber} — outstanding {money(i.outstanding, currency)} ({Number(i.commissionPct)}%)
+                      {i.invoiceNumber} - outstanding {money(i.outstanding, currency)} ({Number(i.commissionPct)}%)
                     </option>
                   ))}
                 </select>
@@ -431,7 +431,7 @@ export default async function DebtorDetailPage({
                 <select name="chequeId" className={`${inputClass} col-span-2`}>
                   <option value="">No linked cheque</option>
                   {cheques.filter((c) => c.status === "PENDING" || c.status === "DEPOSITED").map((c) => (
-                    <option key={c.id} value={c.id}>#{c.chequeNumber} — {money(c.amount, currency)}</option>
+                    <option key={c.id} value={c.id}>#{c.chequeNumber} - {money(c.amount, currency)}</option>
                   ))}
                 </select>
                 <input name="notes" placeholder="Notes (reference, etc.)" className={`${inputClass} col-span-2`} />
@@ -496,7 +496,7 @@ export default async function DebtorDetailPage({
           <form action={logCall.bind(null, debtor.id)} className="grid md:grid-cols-3 gap-3 mb-6">
             <input name="personContacted" placeholder="Person contacted" className={inputClass} />
             <select name="disposition" required className={inputClass}>
-              <option value="OPEN">Open — still working the file</option>
+              <option value="OPEN">Open - still working the file</option>
               <option value="PROMISED">Promise to pay</option>
               <option value="DISPUTED">Dispute</option>
               <option value="NO_ANSWER">No answer</option>
@@ -517,7 +517,7 @@ export default async function DebtorDetailPage({
                 required
                 maxLength={4000}
                 rows={3}
-                placeholder="Notes — who you spoke to, what was agreed, next action…"
+                placeholder="Notes - who you spoke to, what was agreed, next action…"
                 className={inputClass}
               />
             </div>

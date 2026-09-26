@@ -25,7 +25,7 @@ export default async function ImportPage({ params }: { params: Promise<{ id: str
   return (
     <Shell session={session}>
       <PageHeader
-        title={`Master load — ${client.name}`}
+        title={`Master load - ${client.name}`}
         subtitle="Upload a spreadsheet of debtors and invoices. Validate first, then commit."
       />
       <ImportClient clientId={client.id} collectors={collectors} />

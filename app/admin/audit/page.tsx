@@ -66,7 +66,7 @@ export default async function AuditPage({
                   <td className={tdClass}><code className="text-xs">{r.action}</code></td>
                   <td className={tdClass}>{r.entityType} {r.entityId && <span className="text-slate-400">#{r.entityId.slice(0, 8)}</span>}</td>
                   <td className={tdClass}>
-                    {r.detail ? <code className="text-xs text-slate-500">{JSON.stringify(r.detail)}</code> : "—"}
+                    {r.detail ? <code className="text-xs text-slate-500">{JSON.stringify(r.detail)}</code> : "-"}
                   </td>
                 </tr>
               ))}

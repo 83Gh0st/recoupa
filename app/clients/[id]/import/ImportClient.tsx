@@ -68,7 +68,7 @@ export default function ImportClient({
           <p className="mt-1 text-xs text-slate-400">
             One row = one invoice. Repeat the debtor name and phone on every invoice line for that
             debtor. Recognized columns (any naming): debtor name, phone, invoice number, invoice
-            date, amount — plus optional due date, outstanding, collected, commission %, contact
+            date, amount - plus optional due date, outstanding, collected, commission %, contact
             person, trade license, city.
           </p>
         </div>
@@ -142,7 +142,7 @@ export default function ImportClient({
       {committed && (
         <Card className="p-4 bg-emerald-50 border-emerald-200">
           <p className="text-sm text-emerald-800">
-            Committed — {committed.debtorsCreated} new debtor(s), {committed.invoicesCreated} invoice(s)
+            Committed - {committed.debtorsCreated} new debtor(s), {committed.invoicesCreated} invoice(s)
             created.
           </p>
         </Card>

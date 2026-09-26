@@ -65,7 +65,7 @@ function normalizeHeader(h: string) {
   return h.toLowerCase().replace(/[^a-z0-9%]+/g, " ").trim();
 }
 
-const BLANK_TOKENS = new Set(["", "n a", "n/a", "na", "nil", "-", "—"]);
+const BLANK_TOKENS = new Set(["", "n a", "n/a", "na", "nil", "-"]);
 
 export function parseMasterLoadWorkbook(buffer: ArrayBuffer) {
   const wb = XLSX.read(buffer, { type: "buffer", cellDates: true });

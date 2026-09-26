@@ -3,7 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Recoupa — Collection & Sales Operations",
+  title: "Recoupa - Collection & Sales Operations",
   description: "Multi-tenant debt recovery and sales pipeline workspace.",
 };
 
