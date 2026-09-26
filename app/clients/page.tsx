@@ -43,7 +43,7 @@ export default async function ClientsPage({
   );
 
   const singleClientView = isClientPortal
-    ? rollups.filter((c) => c.id === (session.user as any).principalClientId)
+    ? rollups.filter((c) => c.id === session.user.principalClientId)
     : rollups;
 
   return (

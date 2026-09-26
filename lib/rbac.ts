@@ -54,6 +54,7 @@ export const AREA_ACCESS: Record<string, Role[]> = {
 export function canAccess(role: Role, area: keyof typeof AREA_ACCESS) {
   return AREA_ACCESS[area]?.includes(role) ?? false;
 }
+export type Area = keyof typeof AREA_ACCESS;
 
 /** Guard for server components/pages. Redirects home with no crash if the role can't see this area. */
 export async function requireArea(area: keyof typeof AREA_ACCESS) {

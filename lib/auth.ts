@@ -44,6 +44,7 @@ export const authOptions: NextAuthOptions = {
           tenantId: user.tenantId,
           tenantName: tenant.name,
           currency: tenant.currency,
+          principalClientId: user.principalClientId,
         };
       },
     }),
@@ -56,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         token.tenantId = (user as any).tenantId;
         token.tenantName = (user as any).tenantName;
         token.currency = (user as any).currency;
+        token.principalClientId = (user as any).principalClientId ?? null;
       }
       return token;
     },
@@ -67,6 +69,7 @@ export const authOptions: NextAuthOptions = {
         tenantId: token.tenantId as string,
         tenantName: token.tenantName as string,
         currency: token.currency as string,
+        principalClientId: (token.principalClientId as string | null) ?? null,
       };
       return session;
     },
@@ -84,6 +87,7 @@ declare module "next-auth" {
       tenantId: string;
       tenantName: string;
       currency: string;
+      principalClientId: string | null;
     };
   }
 }

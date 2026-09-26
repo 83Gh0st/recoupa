@@ -16,9 +16,23 @@ export default async function DisputesPage() {
   const session = await requireArea("disputes");
   const { tenantId, role } = session.user;
 
+  // A CLIENT-role account with no principal client linked (a setup mistake,
+  // not a crash) — show a clear message instead of querying with a bad id.
+  if (role === "CLIENT" && !session.user.principalClientId) {
+    return (
+      <Shell session={session}>
+        <PageHeader title="Disputes" subtitle="Debtors currently flagged as disputed." />
+        <EmptyState>
+          Your account isn&apos;t linked to a client portfolio yet. Ask your Owner or Operations
+          Manager to set this under Team.
+        </EmptyState>
+      </Shell>
+    );
+  }
+
   const conditions = [eq(schema.debtors.tenantId, tenantId), eq(schema.debtors.status, "DISPUTED")];
   if (role === "COLLECTOR") conditions.push(eq(schema.debtors.assignedUserId, session.user.id));
-  if (role === "CLIENT") conditions.push(eq(schema.debtors.clientId, (session.user as any).principalClientId ?? ""));
+  if (role === "CLIENT") conditions.push(eq(schema.debtors.clientId, session.user.principalClientId!));
 
   const rows = await db
     .select({

@@ -1,16 +1,19 @@
 import Link from "next/link";
 import type { Session } from "next-auth";
-import { canAccess, type Role } from "@/lib/rbac";
+import { canAccess, type Role, type Area } from "@/lib/rbac";
 import SignOutButton from "./SignOutButton";
 import { initials } from "@/lib/format";
 
-type NavItem = { href: string; label: string; area: string };
+type NavItem = { href: string; label: string; area: Area };
 type NavGroup = { title: string; items: NavItem[] };
 
 const NAV: NavGroup[] = [
   {
     title: "Overview",
-    items: [{ href: "/dashboard", label: "Dashboard", area: "dashboard" }],
+    items: [
+      { href: "/dashboard", label: "Dashboard", area: "dashboard" },
+      { href: "/handbook", label: "Handbook", area: "dashboard" },
+    ],
   },
   {
     title: "Collection",
@@ -60,7 +63,7 @@ export default function Shell({
   const role = session.user.role as Role;
   const visibleGroups = NAV.map((g) => ({
     ...g,
-    items: g.items.filter((i) => canAccess(role, i.area as any)),
+    items: g.items.filter((i) => canAccess(role, i.area)),
   })).filter((g) => g.items.length > 0);
 
   return (

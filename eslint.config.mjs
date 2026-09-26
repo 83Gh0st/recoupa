@@ -5,6 +5,14 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    rules: {
+      // Plain apostrophes/quotes in JSX text are valid and render correctly;
+      // this rule is purely stylistic and not worth escaping by hand across
+      // long prose content (the handbook, the landing page copy).
+      "react/no-unescaped-entities": "off",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
