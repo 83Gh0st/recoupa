@@ -29,15 +29,12 @@ I built this after looking at how these agencies actually run their day (a lot o
 - An audit log of who did what and when
 - An in-app operator handbook at `/handbook` documenting all of it
 
-## Demo
 
-_Add a screenshot or GIF of the dashboard/calling queue here before you push this. A 15 second screen recording of the queue → call log → payment flow sells this way better than any description will._
 
 ## Stack
 
 Next.js 16 with the App Router, TypeScript, Tailwind. Postgres through Neon, queried with Drizzle. Auth is NextAuth with credentials and a JWT session carrying the role and tenant. Spreadsheet parsing runs on `xlsx`. The landing page uses Framer Motion for the scroll animations and Lucide for icons.
 
-I picked this stack specifically because you can get a real, working version of this online without paying for anything. Neon's free Postgres tier and Vercel's free hosting tier are both generous enough for a genuine pilot, and neither one needs you to hand over a credit card to start.
 
 ## Running it locally
 
@@ -65,24 +62,7 @@ npm run seed
 npm run dev
 ```
 
-## Putting it online for free
 
-1. Push the repo to GitHub.
-2. Spin up a Neon project for production (keep it separate from whatever you used locally).
-3. Import the repo into Vercel on the free Hobby plan.
-4. Add `DATABASE_URL`, `NEXTAUTH_SECRET`, and `NEXTAUTH_URL` under Vercel's environment variables.
-5. Deploy, then run `npm run db:push` and `npm run seed` once against the production database.
-
-That's genuinely it. Both platforms are built for exactly this: a real pilot at zero cost, with room to scale up later without touching the code.
-
-## Things I simplified on purpose
-
-Being upfront about this instead of pretending it's finished:
-
-- Documents store a file name or reference, not an actual uploaded file yet. Wiring up Vercel Blob or Supabase Storage is a small job, the hook is already sitting in `addDocument` in `app/debtors/actions.ts`.
-- Tenant isolation happens in application code (every query filters by tenant id from the session), not Postgres row level security. Fine for now, worth hardening before this touches real customer data at any scale.
-- Correcting a payment recalculates that one payment against the invoice's current commission percentage. It doesn't cascade back through every historical payment if you change the invoice's percentage after the fact. Rare enough that I left it as a known gap rather than building it out.
-- No automated tests yet. Given how much ground this covers, getting every module working came first.
 
 ## How it's organized
 
