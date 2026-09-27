@@ -1,3 +1,4 @@
+![Recoupa Debtor Profile](./debtor-profile.png)
 # Recoupa
 
 A workspace for running a debt collection agency: the debtors you're chasing, the invoices behind them, the calls you make, the cheques and payments that come in, and the commission your agency earns on top of it. There's a second, smaller book for sales too: prospects, outreach, and converting a signed deal into a real client.
@@ -30,6 +31,7 @@ I built this after looking at how these agencies actually run their day (a lot o
 - An in-app operator handbook at `/handbook` documenting all of it
 
 
+![Recoupa Dashboard](./dashboard.png)
 
 ## Stack
 
